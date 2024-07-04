@@ -8,7 +8,7 @@
 
 ```plantuml
 @startuml Hello World
-' Uncomment the line below for "dark mode" styling
+' 以下をアンコメントするとダークモードで描画します
 '!$AWS_DARK = true
 
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
@@ -16,9 +16,9 @@
 !include AWSPuml/BusinessApplications/all.puml
 !include AWSPuml/Storage/SimpleStorageService.puml
 
-actor "Person" as personAlias
-WorkDocs(desktopAlias, "Label", "Technology", "Optional Description")
-SimpleStorageService(storageAlias, "Label", "Technology", "Optional Description")
+actor "人物" as personAlias
+WorkDocs(desktopAlias, "ラベル", "テクノロジー", "任意の備考")
+SimpleStorageService(storageAlias, "ラベル", "テクノロジー", "任意の備考")
 
 personAlias --> desktopAlias
 desktopAlias --> storageAlias
