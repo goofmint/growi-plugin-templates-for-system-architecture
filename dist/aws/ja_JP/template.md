@@ -1,6 +1,6 @@
 # AWSシステムアーキテクチャ
 
-これらの図は[awslabs/aws-icons-for-plantuml: PlantUML sprites, macros, and other includes for Amazon Web Services services and resources](https://github.com/awslabs/aws-icons-for-plantuml?tab=readme-ov-file#basic-usage)より取得しています。
+これらの図は[awslabs/aws-icons-for-plantuml: PlantUML sprites, macros, and other includes for Amazon Web Services services and resources](https://github.com/awslabs/aws-icons-for-plantuml?tab=readme-ov-file)より取得しています。
 
 ## Getting Started
 
@@ -32,9 +32,40 @@ desktopAlias --> storageAlias
 
 ## 基本形
 
+シンプルな作例です。
+
+```plantuml
+@startuml Basic Usage - AWS IoT Rules Engine
+
+'以下をアンコメントするとダークモードで描画します
+'!$AWS_DARK = true
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/InternetOfThings/IoTRule.puml
+!include AWSPuml/Analytics/KinesisDataStreams.puml
+!include AWSPuml/ApplicationIntegration/SimpleQueueService.puml
+
+left to right direction
+
+agent "イベント発行" as event
+
+IoTRule(iotRule, "アクションエラールール", "Kinesisが失敗したらエラー")
+KinesisDataStreams(eventStream, "IoTイベント", "2 shards")
+SimpleQueueService(errorQueue, "エラーキュールール", "ルールアクションの失敗")
+
+event --> iotRule : JSON message
+iotRule --> eventStream : messages
+iotRule --> errorQueue : Failed action message
+
+@enduml
+```
+
+以下はRoboMakerの作例です。
+
 ```plantuml
 @startuml Raw usage - Images
-' Uncomment the line below for "dark mode" styling
+' 以下をアンコメントするとダークモードで描画します
 '!$AWS_DARK = true
 
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
@@ -44,7 +75,7 @@ desktopAlias --> storageAlias
 
 component "$SageMakerModelIMG()" as myMLModel
 database "$RoboMakerIMG()" as myRoboticService
-RoboMaker(mySecondFunction, "Reinforcement Learning", "Gazebo")
+RoboMaker(mySecondFunction, "強化学習", "Gazebo")
 
 rectangle "$SageMakerModelIMG()" as mySecondML
 
@@ -60,7 +91,7 @@ mySecondFunction --> mySecondML
 
 ```plantuml
 @startuml Two Modes - Technical View
-' Uncomment the line below for "dark mode" styling
+' 以下をアンコメントするとダークモードで描画します
 '!$AWS_DARK = true
 
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
@@ -76,12 +107,12 @@ mySecondFunction --> mySecondML
 
 left to right direction
 
-Users(sources, "Events", "millions of users")
-APIGateway(votingAPI, "Voting API", "user votes")
-Cognito(userAuth, "User Authentication", "jwt to submit votes")
-Lambda(generateToken, "User Credentials", "return jwt")
-Lambda(recordVote, "Record Vote", "enter or update vote per user")
-DynamoDB(voteDb, "Vote Database", "one entry per user")
+Users(sources, "イベント", "数百万ユーザー")
+APIGateway(votingAPI, "投票API", "user votes")
+Cognito(userAuth, "ユーザー認証", "投票を送信する用jwt")
+Lambda(generateToken, "ユーザー認証情報", "JWTの返却")
+Lambda(recordVote, "投票の記録", "ユーザー単位の投票入力または更新")
+DynamoDB(voteDb, "投票データベース", "1ユーザー1エントリー")
 
 sources --> userAuth
 sources --> votingAPI
@@ -97,7 +128,7 @@ recordVote --> voteDb
 
 ```plantuml
 @startuml Sequence Diagram - Technical
-' Uncomment the line below for "dark mode" styling
+' 以下をアンコメントするとダークモードで描画します
 '!$AWS_DARK = true
 
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
@@ -107,24 +138,26 @@ recordVote --> voteDb
 !include AWSPuml/General/Internetalt1.puml
 !include AWSPuml/Database/DynamoDB.puml
 
-actor User as user
-APIGatewayParticipant(api, Credit Card System, All methods are POST)
-LambdaParticipant(lambda,AuthorizeCard,)
-DynamoDBParticipant(db, PaymentTransactions, sortkey=transaction_id+token)
-Internetalt1Participant(processor, Authorizer, Returns status and token)
+actor ユーザー as user
+APIGatewayParticipant(api, クレジットカードシステム, すべてPOSTメソッド)
+LambdaParticipant(lambda,認証済みカード,)
+DynamoDBParticipant(db, 支払いトランザクション, sortkey=transaction_id+token)
+Internetalt1Participant(processor, 承認システム, ステータスとトークンの返却)
 
-user -> api: Process transaction\nPOST /prod/process
-api -> lambda: Invokes lambda with cardholder details
-lambda -> processor: Submit via API token\ncard number, expiry, CID
-processor -> processor: Validate and create token
-processor -> lambda: Returns status code and token
-lambda -> db: PUT transaction id, token
-lambda -> api: Returns\nstatus code, transaction id
-api -> user: Returns status code
+user -> api: トランザクション処理\nPOST /prod/process
+api -> lambda: カード保有者の詳細情報を\nラムダ関数で取得
+lambda -> processor: APIトークンで送信\nカード番号, 有効期限, CID
+processor -> processor: 検証とトークンの生成
+processor -> lambda: ステータスコードとトークンの返却
+lambda -> db: PUT トランザクションID, トークン
+lambda -> api: ステータスコードと\nトランザクションIDの返却
+api -> user: ステータスコードの返却
 @enduml
 ```
 
 ## グルーピング
+
+グループを用いた作例です。
 
 ```plantuml
 @startuml Auto Scaling
@@ -197,4 +230,6 @@ AWSCloudGroup(cloud) {
 @enduml
 ```
 
+## 他の例
 
+他の例は[aws-icons-for-plantuml/examples at main · awslabs/aws-icons-for-plantuml](https://github.com/awslabs/aws-icons-for-plantuml/tree/main/examples)を参照してください。

@@ -1,10 +1,10 @@
-# AWSシステムアーキテクチャ
+# AWS System Architecture
 
-これらの図は[awslabs/aws-icons-for-plantuml: PlantUML sprites, macros, and other includes for Amazon Web Services services and resources](https://github.com/awslabs/aws-icons-for-plantuml?tab=readme-ov-file#basic-usage)より取得しています。
+Those diagrams are getting from [awslabs/aws-icons-for-plantuml: PlantUML sprites, macros, and other includes for Amazon Web Services services and resources](https://github.com/awslabs/aws-icons-for-plantuml?tab=readme-ov-file).
 
 ## Getting Started
 
-簡単な図です。 `!$AWS_DARK = true` でダークモードにて描画します。
+Here is a simple diagram. `!$AWS_DARK = true` to draw in dark mode.
 
 ```plantuml
 @startuml Hello World
@@ -26,11 +26,11 @@ desktopAlias --> storageAlias
 @enduml
 ```
 
-## アイコン
+## Icons
 
-利用できるアイコンは[aws-icons-for-plantuml/AWSSymbols.md at main · awslabs/aws-icons-for-plantuml](https://github.com/awslabs/aws-icons-for-plantuml/blob/main/AWSSymbols.md)にて確認できます。
+Available icons can be found at [aws-icons-for-plantuml/AWSSymbols.md at main - awslabs/aws-icons-for-plantuml](https://github.com/awslabs/aws-icons-for- plantuml/blob/main/AWSSymbols.md).
 
-## 基本形
+## Basic diagrams
 
 ```plantuml
 @startuml Raw usage - Images
@@ -54,9 +54,9 @@ mySecondFunction --> mySecondML
 @enduml
 ```
 
-## シンプルな図
+## Simplified View
 
-`!include AWSPuml/AWSSimplified.puml` を読み込むと、AWSのシンプルな表示が利用できます。
+A simple view is available by loading `!include AWSPuml/AWSSimplified.puml`.
 
 ```plantuml
 @startuml Two Modes - Technical View
@@ -91,9 +91,9 @@ recordVote --> voteDb
 @enduml
 ```
 
-## シーケンス図
+## Sequence Diagram
 
-シーケンス図の中でAWSのアイコンを利用する例です。
+This is an example of using AWS icons in a sequence diagram.
 
 ```plantuml
 @startuml Sequence Diagram - Technical
@@ -124,7 +124,9 @@ api -> user: Returns status code
 @enduml
 ```
 
-## グルーピング
+## Grouping
+
+Here is an example of a work using groups.
 
 ```plantuml
 @startuml Auto Scaling
@@ -196,3 +198,7 @@ AWSCloudGroup(cloud) {
 }
 @enduml
 ```
+
+## Other examples
+
+Other examples can be found at [aws-icons-for-plantuml/examples at main - awslabs/aws-icons-for-plantuml](https://github.com/awslabs/aws-icons-for-plantuml/tree/ main/examples).
