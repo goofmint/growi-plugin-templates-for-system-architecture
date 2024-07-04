@@ -127,54 +127,71 @@ api -> user: Returns status code
 ## グルーピング
 
 ```plantuml
-@startuml VPC
+@startuml Auto Scaling
+'Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+'SPDX-License-Identifier: MIT (For details, see https://github.com/awslabs/aws-icons-for-plantuml/blob/master/LICENSE)
+
 ' Uncomment the line below for "dark mode" styling
 '!$AWS_DARK = true
 
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
 !include AWSPuml/AWSCommon.puml
 !include AWSPuml/AWSSimplified.puml
-!include AWSPuml/Compute/EC2.puml
+!include AWSPuml/Compute/EC2AutoScaling.puml
 !include AWSPuml/Compute/EC2Instance.puml
 !include AWSPuml/Groups/AWSCloud.puml
-!include AWSPuml/Groups/VPC.puml
 !include AWSPuml/Groups/AvailabilityZone.puml
-!include AWSPuml/Groups/PublicSubnet.puml
-!include AWSPuml/Groups/PrivateSubnet.puml
+!include AWSPuml/Groups/VPC.puml
+!include AWSPuml/Groups/AutoScalingGroup.puml
 !include AWSPuml/NetworkingContentDelivery/VPCNATGateway.puml
-!include AWSPuml/NetworkingContentDelivery/VPCInternetGateway.puml
 
-hide stereotype
-skinparam linetype ortho
+skinparam rectangle<<hidden>> {
+  shadowing false
+  BackgroundColor transparent
+  BorderColor transparent
+}
+
+!unquoted procedure LayoutRectangle($p_alias)
+rectangle " " as $p_alias <<hidden>>
+!endprocedure
 
 AWSCloudGroup(cloud) {
   VPCGroup(vpc) {
-    VPCInternetGateway(internet_gateway, "Internet gateway", "")
+    AvailabilityZoneGroup(az_2, "  Availability Zone 2") {
+      VPCNATGateway(az_2_nat_gateway, "NAT gateway", "")
+      EC2Instance(az_2_ec2_1, "Instance", "")
+      EC2Instance(az_2_ec2_2, "Instance", "")
 
-    AvailabilityZoneGroup(az_1, "\tAvailability Zone 1\t") {
-      PublicSubnetGroup(az_1_public, "Public subnet") {
-        VPCNATGateway(az_1_nat_gateway, "NAT gateway", "") #Transparent
-      }
-      PrivateSubnetGroup(az_1_private, "Private subnet") {
-        EC2Instance(az_1_ec2_1, "Instance", "") #Transparent
-      }
-
-      az_1_ec2_1 .u.> az_1_nat_gateway
+      az_2_nat_gateway -[hidden]d- az_2_ec2_1
+      az_2_ec2_1 -[hidden]d- az_2_ec2_2
     }
 
-    AvailabilityZoneGroup(az_2, "\tAvailability Zone 2\t") {
-      PublicSubnetGroup(az_2_public, "Public subnet") {
-        VPCNATGateway(az_2_nat_gateway, "NAT gateway", "") #Transparent
-      }
-      PrivateSubnetGroup(az_2_private, "Private subnet") {
-        EC2Instance(az_2_ec2_1, "Instance", "") #Transparent
-      }
+    LayoutRectangle(layout_rectangle) {
+      EC2AutoScaling(ec2_auto_scaling, "Amazon EC2 Auto Scaling", "")
+      AutoScalingGroupGroup(asg_1)
+      AutoScalingGroupGroup(asg_2)
 
-      az_2_ec2_1 .u.> az_2_nat_gateway
+      ec2_auto_scaling -[hidden]d- asg_1
+      asg_1 -[hidden]d- asg_2
     }
 
-    az_2_nat_gateway .[hidden]u.> internet_gateway
-    az_1_nat_gateway .[hidden]u.> internet_gateway
+    AvailabilityZoneGroup(az_1, "  Availability Zone 1") {
+      VPCNATGateway(az_1_nat_gateway, "NAT gateway", "")
+      EC2Instance(az_1_ec2_1, "Instance", "")
+      EC2Instance(az_1_ec2_2, "Instance", "")
+
+      az_1_nat_gateway -[hidden]d- az_1_ec2_1
+      az_1_ec2_1 -[hidden]d- az_1_ec2_2
+    }
+
+    ec2_auto_scaling -[hidden]l- az_1_nat_gateway
+    ec2_auto_scaling -[hidden]r- az_2_nat_gateway
+
+    asg_1 -[dashed,$AWS_COLOR_SMILE]l- az_1_ec2_1
+    asg_1 -[dashed,$AWS_COLOR_SMILE]r- az_2_ec2_1
+
+    asg_2 -[dashed,$AWS_COLOR_SMILE]l- az_1_ec2_2
+    asg_2 -[dashed,$AWS_COLOR_SMILE]r- az_2_ec2_2
   }
 }
 @enduml
