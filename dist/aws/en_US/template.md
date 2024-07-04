@@ -28,7 +28,7 @@ desktopAlias --> storageAlias
 
 ## Icons
 
-Available icons can be found at [aws-icons-for-plantuml/AWSSymbols.md at main - awslabs/aws-icons-for-plantuml](https://github.com/awslabs/aws-icons-for- plantuml/blob/main/AWSSymbols.md).
+Available icons can be found at [aws-icons-for-plantuml/AWSSymbols.md at main - awslabs/aws-icons-for-plantuml](https://github.com/awslabs/aws-icons-for-plantuml/blob/main/AWSSymbols.md).
 
 ## Basic diagrams
 
@@ -201,4 +201,4 @@ AWSCloudGroup(cloud) {
 
 ## Other examples
 
-Other examples can be found at [aws-icons-for-plantuml/examples at main - awslabs/aws-icons-for-plantuml](https://github.com/awslabs/aws-icons-for-plantuml/tree/ main/examples).
+Other examples can be found at [aws-icons-for-plantuml/examples at main - awslabs/aws-icons-for-plantuml](https://github.com/awslabs/aws-icons-for-plantuml/tree/main/examples).
