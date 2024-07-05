@@ -23,9 +23,9 @@ desktopAlias --> storageAlias
 @enduml
 ```
 
-## Icons
+## アイコン
 
-Available icons can be found at [gcp-icons-for-plantuml/GCPSymbols.md at master · davidholsgrove/gcp-icons-for-plantuml](https://github.com/davidholsgrove/gcp-icons-for-plantuml/blob/master/GCPSymbols.md).
+利用できるアイコンは[gcp-icons-for-plantuml/GCPSymbols.md at master · davidholsgrove/gcp-icons-for-plantuml](https://github.com/davidholsgrove/gcp-icons-for-plantuml/blob/master/GCPSymbols.md)にて確認できます。
 
 ## 基本的な描画例
 
